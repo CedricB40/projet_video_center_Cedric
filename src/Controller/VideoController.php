@@ -35,11 +35,12 @@ class VideoController extends AbstractController //on supprime final qui a été
 
         $form->handleRequest($request); //on récupère les données envoyées si le formulaire est soumis
 
-        if ($form->isSubmitted() && $form->isValid()) { //on vérifie que le formulaire est soumis et valide
-            $entityManager->persist($video); //on prépare l'insertion en base
-            $entityManager->flush(); //on exécute réellement la requête SQL
+        if ($form->isSubmitted() && $form->isValid()) {
+            $video->setAuteur($this->getUser()); //on assigne l'utilisateur connecté comme auteur de la vidéo
+            $entityManager->persist($video);
+            $entityManager->flush();
 
-            return $this->redirectToRoute('app_home'); //on redirige vers l'accueil pour éviter la re-soumission
+            return $this->redirectToRoute('app_home');
         }
 
         return $this->render('video/create.html.twig', [ //si pas encore soumis ou invalide, on affiche le formulaire
