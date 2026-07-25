@@ -46,13 +46,27 @@ class VideoController extends AbstractController //on supprime final qui a été
     #[Route('/video/{id}', name: 'app_video_show')] //route imposée dans les consignes
     public function show(Video $video): Response
     {
-        return new Response('Vidéo : ' . $video->getTitle()); //retour temporaire, logique CRUD à venir
+        return $this->render('video/show.html.twig', [ //$video déjà récupérée via le param converter, on l'envoie au template
+            'video' => $video,
+        ]);
     }
 
     #[Route('/video/{id}/edit', name: 'app_video_edit')] //route imposée dans les consignes
-    public function edit(Video $video): Response
+    public function edit(Video $video, Request $request, EntityManagerInterface $entityManager): Response
     {
-        return new Response('Édition de : ' . $video->getTitle()); //retour temporaire, logique CRUD à venir
+        $form = $this->createForm(VideoType::class, $video); //formulaire pré-rempli avec les données existantes de $video
+
+        $form->handleRequest($request); //on récupère les données si le formulaire est soumis
+
+        if ($form->isSubmitted() && $form->isValid()) { //si soumis et valide
+            $entityManager->flush(); //pas de persist ici, $video est déjà connue de Doctrine
+
+            return $this->redirectToRoute('app_video_show', ['id' => $video->getId()]); //redirection vers la fiche de la vidéo modifiée
+        }
+
+        return $this->render('video/edit.html.twig', [ //si pas encore soumis ou invalide, on affiche le formulaire pré-rempli
+            'form' => $form->createView(),
+        ]);
     }
 
     #[Route('/video/{id}/delete', name: 'app_video_delete')] //route imposée dans les consignes
