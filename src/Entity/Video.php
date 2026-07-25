@@ -10,7 +10,7 @@ use App\Entity\Trait\TimestampableTrait; //ajout de l'appel du trait
 
 #[ORM\Entity(repositoryClass: VideoRepository::class)]
 #[ORM\HasLifecycleCallbacks] //ajout du HasLifecycleCallbacks
-
+#[ORM\Table(name: 'videos')] //on renomme la table en "videos" avec un "s" (convention CFITECH)
 class Video
 {
     use TimestampableTrait; //ajout du use dans la class
