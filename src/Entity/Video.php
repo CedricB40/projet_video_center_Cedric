@@ -9,11 +9,11 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Trait\TimestampableTrait; //ajout de l'appel du trait
 
 #[ORM\Entity(repositoryClass: VideoRepository::class)]
-#[ORM\HasLifecycleCallbacks] //ajout du HasLifecycleCallbacks
+#[ORM\HasLifecycleCallbacks] //permet à Doctrine d'appeler automatiquement les méthodes du trait (PrePersist/PreUpdate) pour gérer createdAt/updatedAt
 #[ORM\Table(name: 'videos')] //on renomme la table en "videos" avec un "s" (convention CFITECH)
 class Video
 {
-    use TimestampableTrait; //ajout du use dans la class
+    use TimestampableTrait; //ajout de l'appel de TimestampableTrait
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -28,6 +28,10 @@ class Video
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
+
+    #[ORM\ManyToOne(inversedBy: 'videos')]
+    #[ORM\JoinColumn(nullable: false)] //nullable à false : une vidéo doit obligatoirement avoir un auteur dès sa création (cohérent avec le flow d'authentification de la Phase 5)
+    private ?User $auteur = null;
 
     public function getId(): ?int
     {
@@ -69,4 +73,17 @@ class Video
 
         return $this;
     }
+
+    public function getAuteur(): ?User
+    {
+        return $this->auteur;
+    }
+
+    public function setAuteur(?User $auteur): static
+    {
+        $this->auteur = $auteur;
+
+        return $this;
+    }
+
 }
