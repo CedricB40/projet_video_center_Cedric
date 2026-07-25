@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -14,7 +15,8 @@ use App\Entity\Trait\TimestampableTrait; //import du trait Timestampable
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[ORM\Table(name: 'users')] //on renomme la table en "users" avec un "s" (convention CFITECH)
-#[ORM\HasLifecycleCallbacks] //permet à Doctrine d'appeler automatiquement les méthodes du trait (PrePersist/PreUpdate) pour gérer createdAt/updatedAt
+#[ORM\HasLifecycleCallbacks]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')] //permet à Doctrine d'appeler automatiquement les méthodes du trait (PrePersist/PreUpdate) pour gérer createdAt/updatedAt
 
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -51,6 +53,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\OneToMany(targetEntity: Video::class, mappedBy: 'auteur')] //relation inverse : un utilisateur peut avoir 0 à plusieurs vidéos (côté non-propriétaire de la relation)
     private Collection $videos;
+
+    #[ORM\Column]
+    private bool $isVerified = false;
 
     public function __construct()
     {
@@ -188,6 +193,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $video->setAuteur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
 
         return $this;
     }

@@ -8,6 +8,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+
 class VideoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -16,10 +18,13 @@ class VideoType extends AbstractType
             ->add('title')
             ->add('videoLink')
             ->add('description')
+            ->add('premiumVideo', CheckboxType::class, [
+                'required' => false,
+            ])
 
             // suppression des createdAt et updatedAt car gérés automatiquement par le trait TimestampableTrait
 
-            ;
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
