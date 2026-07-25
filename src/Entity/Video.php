@@ -33,6 +33,9 @@ class Video
     #[ORM\JoinColumn(nullable: false)] //nullable à false : une vidéo doit obligatoirement avoir un auteur dès sa création (cohérent avec le flow d'authentification de la Phase 5)
     private ?User $auteur = null;
 
+    #[ORM\Column]
+    private ?bool $premiumVideo = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -82,6 +85,18 @@ class Video
     public function setAuteur(?User $auteur): static
     {
         $this->auteur = $auteur;
+
+        return $this;
+    }
+
+    public function isPremiumVideo(): ?bool
+    {
+        return $this->premiumVideo;
+    }
+
+    public function setPremiumVideo(bool $premiumVideo): static
+    {
+        $this->premiumVideo = $premiumVideo;
 
         return $this;
     }
