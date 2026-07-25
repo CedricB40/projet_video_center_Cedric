@@ -6,6 +6,7 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
@@ -18,6 +19,26 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('email')
+
+            // Champ firstname : mappé directement sur User::$firstname (colonne NOT NULL en base)
+            // Contrainte NotBlank ajoutée manuellement car absente par défaut du Maker
+            ->add('firstname', TextType::class, [
+                'constraints' => [
+                    new NotBlank(
+                        message: 'Veuillez saisir votre prénom',
+                    ),
+                ],
+            ])
+
+            // Champ lastname : mappé directement sur User::$lastname (colonne NOT NULL en base)
+            ->add('lastname', TextType::class, [
+                'constraints' => [
+                    new NotBlank(
+                        message: 'Veuillez saisir votre nom',
+                    ),
+                ],
+            ])
+
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
