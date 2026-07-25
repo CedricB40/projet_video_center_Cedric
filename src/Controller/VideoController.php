@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 use App\Entity\Video; //on importe l'entité Video
+use App\Entity\User; //on importe l'entité User (pour typer $this->getUser() dans les vérifications isVerified)
 
 use Symfony\Component\HttpFoundation\Request; //pour la requete http envoyées par le navigateur (contient les données formulaire quand soumis)
 use Doctrine\ORM\EntityManagerInterface; //le service doctrine qui save les data en base
@@ -14,6 +15,8 @@ use Doctrine\ORM\EntityManagerInterface; //le service doctrine qui save les data
 use App\Form\VideoType; //on import le form de VideoType
 
 use App\Repository\VideoRepository;
+
+use Symfony\Component\Security\Http\Attribute\IsGranted; //sécurité pour la création
 
 class VideoController extends AbstractController //on supprime final qui a été généré automatiquement (pour pouvoir hériter de ce controller)
 {
@@ -28,8 +31,21 @@ class VideoController extends AbstractController //on supprime final qui a été
     }
 
     #[Route('/video/create', name: 'app_video_create')] //route imposée dans les consignes
+    #[IsGranted('IS_AUTHENTICATED_FULLY')] //couche 1 : bloque les utilisateurs non connectés (redirection auto vers /login)
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
+        // couche 2 : bloque les utilisateurs connectés mais non vérifiés (email non confirmé)
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser(); //on type explicitement $user en User (au lieu de UserInterface) pour l'analyseur statique
+
+        if (!$user->isVerified()) {
+            $this->addFlash('danger', 'Vous devez vérifier votre adresse email avant de pouvoir créer une vidéo.');
+
+            return $this->redirectToRoute('app_home');
+        }
+
         $video = new Video(); //on crée un objet Video vide
         $form = $this->createForm(VideoType::class, $video); //on crée le formulaire lié à cet objet
 
@@ -57,8 +73,21 @@ class VideoController extends AbstractController //on supprime final qui a été
     }
 
     #[Route('/video/{id}/edit', name: 'app_video_edit')] //route imposée dans les consignes
+    #[IsGranted('IS_AUTHENTICATED_FULLY')] //couche 1 : bloque les utilisateurs non connectés (redirection auto vers /login)
     public function edit(Video $video, Request $request, EntityManagerInterface $entityManager): Response
     {
+        // couche 2 : bloque les utilisateurs connectés mais non vérifiés (email non confirmé)
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser(); //on type explicitement $user en User (au lieu de UserInterface) pour l'analyseur statique
+
+        if (!$user->isVerified()) {
+            $this->addFlash('danger', 'Vous devez vérifier votre adresse email avant de pouvoir modifier une vidéo.');
+
+            return $this->redirectToRoute('app_home');
+        }
+
         $form = $this->createForm(VideoType::class, $video); //formulaire pré-rempli avec les données existantes de $video
 
         $form->handleRequest($request); //on récupère les données si le formulaire est soumis
