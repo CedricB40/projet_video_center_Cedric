@@ -14,11 +14,11 @@
 						<div class="card-body">
 							<h5 class="card-title">
 								<a href="{{ path('app_video_show', {id: video.id}) }}"> {# lien cliquable vers show #}
-									{{ u.truncate(video.title, 20, '...', true) }} {# titre tronqué à 20 caractères #}
+									{{ video.title|u.truncate(20, '...', true) }} {# titre tronqué à 20 caractères #}
 								</a>
 							</h5>
 							<iframe width="300" height="200" src="{{ video.videoLink }}" title="{{ video.title }}" frameborder="0" allowfullscreen></iframe> {# dimensions imposées pour index #}
-                            <p class="card-text mt-2">{{ u.truncate(video.description, 25, '...', true) }}</p> {# description tronquée à 25 caractères #}
+                            <p class="card-text mt-2">{{ video.description|u.truncate(25, '...', true) }}</p> {# description tronquée à 25 caractères #}
                             <p class="text-muted small">Mise en ligne {{ video.createdAt|ago }}</p> {# temps écoulé depuis la publication, via KnpTimeBundle #}
 						</div>
 					</div>
