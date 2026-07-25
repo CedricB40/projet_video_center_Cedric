@@ -6,9 +6,15 @@ use App\Repository\VideoRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+use App\Entity\Trait\TimestampableTrait; //ajout de l'appel du trait
+
 #[ORM\Entity(repositoryClass: VideoRepository::class)]
+#[ORM\HasLifecycleCallbacks] //ajout du HasLifecycleCallbacks
+
 class Video
 {
+    use TimestampableTrait; //ajout du use dans la class
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
