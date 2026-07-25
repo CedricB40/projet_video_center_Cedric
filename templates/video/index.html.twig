@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - Liste des vidéos
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-4">
+		<h1>Liste des vidéos</h1>
+
+		<div class="row">
+			{% for video in videos %} {# boucle sur toutes les vidéos envoyées par le contrôleur #}
+				<div class="col-md-4 mb-4"> {# 3 vidéos par ligne sur desktop #}
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">
+								<a href="{{ path('app_video_show', {id: video.id}) }}"> {# lien cliquable vers show #}
+									{{ u.truncate(video.title, 20, '...', true) }} {# titre tronqué à 20 caractères #}
+								</a>
+							</h5>
+							<iframe width="300" height="200" src="{{ video.videoLink }}" title="{{ video.title }}" frameborder="0" allowfullscreen></iframe> {# dimensions imposées pour index #}
+                            <p class="card-text mt-2">{{ u.truncate(video.description, 25, '...', true) }}</p> {# description tronquée à 25 caractères #}
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}
