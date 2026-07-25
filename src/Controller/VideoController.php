@@ -70,8 +70,13 @@ class VideoController extends AbstractController //on supprime final qui a été
     }
 
     #[Route('/video/{id}/delete', name: 'app_video_delete')] //route imposée dans les consignes
-    public function delete(Video $video): Response
-    {
-        return new Response('Suppression de : ' . $video->getTitle()); //retour temporaire, logique CRUD à venir
+    public function delete(Video $video, Request $request, EntityManagerInterface $entityManager): Response
+{
+    if ($this->isCsrfTokenValid('delete' . $video->getId(), $request->request->get('_token'))) { //vérifie si le tolken csrf est valide (authorisation obligatoire)
+        $entityManager->remove($video); // video supprimée
+        $entityManager->flush(); //exécute la suppression de la base de donnée
     }
+
+    return $this->redirectToRoute('app_home'); //redirection vers l'accueil
+}
 }
