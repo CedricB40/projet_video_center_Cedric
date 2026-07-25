@@ -22,7 +22,7 @@
 				<a href="{{ path('app_video_edit', {id: video.id}) }}" class="btn btn-warning">Éditer</a> {# lien vers l'édition de cette vidéo précise #}
 
 				<form method="post" action="{{ path('app_video_delete', {id: video.id}) }}" class="d-inline"> {# formulaire POST requis pour la suppression #}
-					<input type="hidden" name="_token" value="{{ csrf_token('delete' . video.id) }}"> {# token CSRF, doit correspondre à la clé utilisée dans le contrôleur #}
+					<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ video.id) }}"> {# token CSRF, doit correspondre à la clé utilisée dans le contrôleur #}
 					<button type="submit" class="btn btn-danger">Supprimer</button>
 				</form>
 
