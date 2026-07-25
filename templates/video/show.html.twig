@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ video.title }}
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-8"> {# colonne plus large que create/edit, pour laisser la place à l'iframe 640px #}
+
+				<h1>{{ video.title }}</h1>
+
+				<iframe width="640" height="480" src="{{ video.videoLink }}" title="{{ video.title }}" frameborder="0" allowfullscreen></iframe> {# dimensions imposées par le PDF pour show #}
+
+				<p class="mt-3">{{ video.description }}</p> {# description complète, non tronquée #}
+
+				<p class="text-muted">Publiée le
+					{{ video.createdAt|date('d/m/Y à H:i') }}</p> {# formatage de la date via le filtre |date #}
+
+				<a href="{{ path('app_home') }}" class="btn btn-secondary">Retour</a> {# lien vers l'accueil via le nom de route, jamais l'URL en dur #}
+				<a href="{{ path('app_video_edit', {id: video.id}) }}" class="btn btn-warning">Éditer</a> {# lien vers l'édition de cette vidéo précise #}
+
+				<form method="post" action="{{ path('app_video_delete', {id: video.id}) }}" class="d-inline"> {# formulaire POST requis pour la suppression #}
+					<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ video.id) }}"> {# token CSRF, doit correspondre à la clé utilisée dans le contrôleur #}
+					<button type="submit" class="btn btn-danger">Supprimer</button>
+				</form>
+
+			</div>
+		</div>
+	</div>
+{% endblock %}
