@@ -30,7 +30,7 @@ class Video
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'videos')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false)] //nullable à false : une vidéo doit obligatoirement avoir un auteur dès sa création (cohérent avec le flow d'authentification de la Phase 5)
     private ?User $auteur = null;
 
     public function getId(): ?int

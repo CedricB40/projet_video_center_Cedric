@@ -19,7 +19,7 @@ use App\Entity\Trait\TimestampableTrait; //import du trait Timestampable
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use TimestampableTrait; //appel le trait Timestampable
-    
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -49,7 +49,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Video>
      */
-    #[ORM\OneToMany(targetEntity: Video::class, mappedBy: 'auteur')]
+    #[ORM\OneToMany(targetEntity: Video::class, mappedBy: 'auteur')] //relation inverse : un utilisateur peut avoir 0 à plusieurs vidéos (côté non-propriétaire de la relation)
     private Collection $videos;
 
     public function __construct()
