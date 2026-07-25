@@ -13,13 +13,17 @@ use Doctrine\ORM\EntityManagerInterface; //le service doctrine qui save les data
 
 use App\Form\VideoType; //on import le form de VideoType
 
+use App\Repository\VideoRepository;
+
 class VideoController extends AbstractController //on supprime final qui a été généré automatiquement (pour pouvoir hériter de ce controller)
 {
     #[Route('/', name: 'app_home')] //route imposée dans les consignes
-    public function index(): Response
+    public function index(VideoRepository $videoRepository): Response
     {
+        $videos = $videoRepository->findAll(); //récupère toutes les vidéos en base
+
         return $this->render('video/index.html.twig', [
-            'controller_name' => 'VideoController',
+            'videos' => $videos,
         ]);
     }
 
@@ -71,12 +75,12 @@ class VideoController extends AbstractController //on supprime final qui a été
 
     #[Route('/video/{id}/delete', name: 'app_video_delete')] //route imposée dans les consignes
     public function delete(Video $video, Request $request, EntityManagerInterface $entityManager): Response
-{
-    if ($this->isCsrfTokenValid('delete' . $video->getId(), $request->request->get('_token'))) { //vérifie si le tolken csrf est valide (authorisation obligatoire)
-        $entityManager->remove($video); // video supprimée
-        $entityManager->flush(); //exécute la suppression de la base de donnée
-    }
+    {
+        if ($this->isCsrfTokenValid('delete' . $video->getId(), $request->request->get('_token'))) { //vérifie si le tolken csrf est valide (authorisation obligatoire)
+            $entityManager->remove($video); // video supprimée
+            $entityManager->flush(); //exécute la suppression de la base de donnée
+        }
 
-    return $this->redirectToRoute('app_home'); //redirection vers l'accueil
-}
+        return $this->redirectToRoute('app_home'); //redirection vers l'accueil
+    }
 }
