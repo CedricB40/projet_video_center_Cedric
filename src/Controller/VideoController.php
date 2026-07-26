@@ -18,12 +18,18 @@ use App\Repository\VideoRepository;
 
 use Symfony\Component\Security\Http\Attribute\IsGranted; //sécurité pour la création
 
+use Knp\Component\Pager\PaginatorInterface; //service KnpPaginator pour découper les résultats en pages
+
 class VideoController extends AbstractController //on supprime final qui a été généré automatiquement (pour pouvoir hériter de ce controller)
 {
     #[Route('/', name: 'app_home')] //route imposée dans les consignes
-    public function index(VideoRepository $videoRepository): Response
+    public function index(VideoRepository $videoRepository, PaginatorInterface $paginator, Request $request): Response
     {
-        $videos = $videoRepository->findAll(); //récupère toutes les vidéos en base
+        $videos = $paginator->paginate(
+            $videoRepository->findAllQueryBuilder(),
+            $request->query->getInt('page', 1),
+            9 
+        );
 
         return $this->render('video/index.html.twig', [
             'videos' => $videos,
