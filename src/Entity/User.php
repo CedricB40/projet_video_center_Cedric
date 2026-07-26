@@ -12,12 +12,16 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 use App\Entity\Trait\TimestampableTrait; //import du trait Timestampable
 
+//les 3 imports pour VichUploader
+use Vich\UploaderBundle\Mapping\Attribute as Vich; //permet d'utiliser les attributs Vich (#[Vich\Uploadable], #[Vich\UploadableField]) pour gérer l'upload de fichiers
+use Symfony\Component\HttpFoundation\File\File; //classe représentant un fichier uploadé, utilisée pour typer la propriété imageFile
+
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[ORM\Table(name: 'users')] //on renomme la table en "users" avec un "s" (convention CFITECH)
 #[ORM\HasLifecycleCallbacks]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')] //permet à Doctrine d'appeler automatiquement les méthodes du trait (PrePersist/PreUpdate) pour gérer createdAt/updatedAt
-
+#[Vich\Uploadable]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use TimestampableTrait; //appel le trait Timestampable
@@ -56,6 +60,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private bool $isVerified = false;
+
+    #[Vich\UploadableField(mapping: 'user_image', fileNameProperty: 'image')] //champ non mappé en base, uniquement utilisé le temps de l'upload par Vich
+    private ?File $imageFile = null;
+
+    #[ORM\Column(length: 255, nullable: true)] //stocke uniquement le nom du fichier, pas le fichier lui-même
+    private ?string $image = null;
 
     public function __construct()
     {
@@ -132,7 +142,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __serialize(): array
     {
         $data = (array) $this;
-        $data["\0".self::class."\0password"] = hash('crc32c', $this->password);
+        $data["\0" . self::class . "\0password"] = hash('crc32c', $this->password);
 
         return $data;
     }
@@ -205,6 +215,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile; //Doctrine détectera le changement via setImage() (propriété mappée), déclenché automatiquement par Vich après l'upload physique
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }
