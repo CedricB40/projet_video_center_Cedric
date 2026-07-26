@@ -25,14 +25,31 @@ class VideoController extends AbstractController //on supprime final qui a été
     #[Route('/', name: 'app_home')] //route imposée dans les consignes
     public function index(VideoRepository $videoRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        $search = $request->query->get('search'); //récupère le terme recherché depuis l'URL (?search=...), null si absent
+
+        if ($search) {
+            /**
+             * @var User|null $user
+             */
+            $user = $this->getUser(); //null si non connecté
+            $includePremium = $user !== null && $user->isVerified(); //vidéos premium visibles uniquement si connecté ET vérifié
+
+            $queryBuilder = $videoRepository->findBySearchQueryBuilder($search, $includePremium); //requête filtrée titre/description, avec ou sans premium
+            $limit = 6; //6 résultats par page pour la recherche, imposé par le cahier des charges
+        } else {
+            $queryBuilder = $videoRepository->findAllQueryBuilder(); //requête sur toutes les vidéos
+            $limit = 9; //9 vidéos par page pour l'accueil sans recherche
+        }
+
         $videos = $paginator->paginate(
-            $videoRepository->findAllQueryBuilder(),
-            $request->query->getInt('page', 1),
-            9 
+            $queryBuilder, //requête non exécutée, le paginateur s'en charge avec LIMIT/OFFSET
+            $request->query->getInt('page', 1), //numéro de page depuis l'URL (?page=2), 1 par défaut
+            $limit
         );
 
         return $this->render('video/index.html.twig', [
             'videos' => $videos,
+            'search' => $search, //renvoyé au template pour préremplir le champ de recherche
         ]);
     }
 

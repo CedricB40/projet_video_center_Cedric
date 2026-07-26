@@ -23,6 +23,20 @@ class VideoRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findBySearchQueryBuilder(string $search, bool $includePremium = false) //recherche sur title OU description, $includePremium détermine si les vidéos premium sont incluses (connecté + vérifié uniquement)
+    {
+        $queryBuilder = $this->createQueryBuilder('v')
+            ->andWhere('v.title LIKE :search OR v.description LIKE :search')
+            ->setParameter('search', '%' . $search . '%') //% autour du terme = recherche "contient", pas seulement "commence par"
+            ->orderBy('v.createdAt', 'DESC');
+
+        if (!$includePremium) {
+            $queryBuilder->andWhere('v.premiumVideo = false'); //exclut les vidéos premium pour les non-vérifiés/non connectés
+        }
+
+        return $queryBuilder;
+    }
+
     //    /**
     //     * @return Video[] Returns an array of Video objects
     //     */

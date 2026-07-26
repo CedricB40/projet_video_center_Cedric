@@ -7,32 +7,45 @@
 	<div class="container mt-4">
 		<h1>Liste des vidéos</h1>
 
+		{% if app.user %}
+			{# barre de recherche visible uniquement si connecté, imposé par le cahier des charges #}
+			<form method="get" action="{{ path('app_home') }}" class="mb-3">
+				<div class="input-group">
+					<input type="text" name="search" class="form-control" placeholder="Rechercher une vidéo..." value="{{ search }}">
+					<button class="btn btn-primary" type="submit">Rechercher</button>
+				</div>
+			</form>
+
+			{% if search %}
+				{# compteur affiché uniquement si une recherche est active #}
+				<p>{{ videos.getTotalItemCount() }} vidéo(s) trouvée(s) avec le terme "{{ search }}"</p>
+			{% endif %}
+		{% endif %}
+
 		<div class="row">
 			{% for video in videos %}
 				{# boucle sur toutes les vidéos envoyées par le contrôleur #}
-				<div
-					class="col-md-4 mb-4">
+				<div class="col-md-4 mb-4">
 					{# 3 vidéos par ligne sur desktop #}
 					<div class="card">
 						<div class="card-body">
 							<h5 class="card-title">
-								<a
-									href="{{ path('app_video_show', {id: video.id}) }}">
-									{# lien cliquable vers show #}
-									{{ video.title|u.truncate(20, '...', true) }}
-									{# titre tronqué à 20 caractères #}
+								<a href="{{ path('app_video_show', {id: video.id}) }}"> {# lien cliquable vers show #}
+									{{ video.title|u.truncate(20, '...', true) }} {# titre tronqué à 20 caractères #}
 								</a>
 							</h5>
 							<iframe width="300" height="200" src="{{ video.videoLink }}" title="{{ video.title }}" frameborder="0" allowfullscreen></iframe>
 							{# dimensions imposées pour index #}
 							<p class="card-text mt-2">{{ video.description|u.truncate(25, '...', true) }}</p>
 							{# description tronquée à 25 caractères #}
-							<p class="text-muted small">Mise en ligne
-								{{ video.createdAt|ago }}</p>
+							<p class="text-muted small">Mise en ligne {{ video.createdAt|ago }}</p>
 							{# temps écoulé depuis la publication, via KnpTimeBundle #}
 						</div>
 					</div>
 				</div>
+			{% else %}
+				<p>Aucune vidéo trouvée.</p>
+				{# affiché si la boucle for n'a rien à itérer #}
 			{% endfor %}
 		</div>
 	</div>
