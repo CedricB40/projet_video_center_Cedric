@@ -24,9 +24,11 @@ class AccountController extends AbstractController //on supprime final (conventi
          * @var User $user
          */
         $user = $this->getUser(); //on récupère l'utilisateur connecté, typé explicitement en User
+        $videos = $user->getVideos(); //récupère la collection des vidéos de cet utilisateur via la relation OneToMany déjà existante (pas besoin de nouvelle requête)
 
         return $this->render('account/index.html.twig', [
             'user' => $user, //on envoie l'utilisateur au template pour affichage
+            'videos' => $videos,
         ]);
     }
 

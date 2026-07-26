@@ -22,5 +22,31 @@
 		<p>
 			<strong>Membre depuis :</strong>
 			{{ user.createdAt|date('d/m/Y') }}</p>
+
+		<h2>Mes vidéos</h2>
+
+		<div class="row">
+			{% for video in videos %}
+				{# boucle sur toutes les vidéos de l'utilisateur connecté, envoyées par le contrôleur via user.getVideos() #}
+				<div class="col-md-4 mb-4">
+					{# 3 vidéos par ligne sur desktop, cohérent avec video/index.html.twig #}
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">
+								<a href="{{ path('app_video_show', {id: video.id}) }}"> {# lien cliquable vers show #}
+									{{ video.title|u.truncate(20, '...', true) }} {# titre tronqué à 20 caractères #}
+								</a>
+							</h5>
+							<iframe width="300" height="200" src="{{ video.videoLink }}" title="{{ video.title }}" frameborder="0" allowfullscreen></iframe>
+							{# dimensions imposées pour index #}
+							<p class="card-text mt-2">{{ video.description|u.truncate(25, '...', true) }}</p>
+							{# description tronquée à 25 caractères #}
+							<p class="text-muted small">Mise en ligne {{ video.createdAt|ago }}</p>
+							{# temps écoulé depuis la publication, via KnpTimeBundle #}
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
 	</div>
 {% endblock %}
