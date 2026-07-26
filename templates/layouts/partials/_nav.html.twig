@@ -1,6 +1,4 @@
-{# Navbar - version simplifiée Phase 2 : logique connecté/non connecté uniquement.
-   Les liens "Créer une vidéo" (isVerified) et "S'enregistrer" seront ajoutés en Phase 3/5
-   une fois le champ isVerified et la route app_register disponibles. #}
+{# distingue 3 états — non connecté, connecté non vérifié, connecté et vérifié (accès à "Créer une vidéo" réservé aux vérifiés). #}
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ path('app_home') }}">Video Center</a>
@@ -15,10 +13,21 @@
             </ul>
             <ul class="navbar-nav">
                 {% if app.user %}
+                    {% if app.user.isVerified %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_video_create') }}">Créer une vidéo</a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_account') }}">Mon profil</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
                     </li>
                 {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_register') }}">S'enregistrer</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
                     </li>
