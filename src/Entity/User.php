@@ -143,6 +143,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $data = (array) $this;
         $data["\0" . self::class . "\0password"] = hash('crc32c', $this->password);
+        unset($data["\0" . self::class . "\0imageFile"]); //on exclut imageFile de la sérialisation (objet File non sérialisable)
 
         return $data;
     }
@@ -226,7 +227,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setImageFile(?File $imageFile = null): void
     {
-        $this->imageFile = $imageFile; //Doctrine détectera le changement via setImage() (propriété mappée), déclenché automatiquement par Vich après l'upload physique
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) { //on force la détection du changement par Doctrine, imageFile n'étant pas une propriété mappée en base
+            $this->updatedAt = new \DateTimeImmutable();
+        }
     }
 
     public function getImage(): ?string

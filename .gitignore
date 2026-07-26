@@ -18,3 +18,12 @@
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###
+
+###> uploads utilisateurs ###
+/public/uploads/images/users/*
+!/public/uploads/images/users/default.png
+###< uploads utilisateurs ###

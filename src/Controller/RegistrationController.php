@@ -36,6 +36,8 @@ class RegistrationController extends AbstractController
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
+            $user->setImage('default.png'); //image de profil par défaut, aucune image n'étant demandée à l'inscription
+
             $entityManager->persist($user);
             $entityManager->flush();
 
