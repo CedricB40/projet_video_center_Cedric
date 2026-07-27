@@ -28,6 +28,7 @@ class UserFixtures extends Fixture
         $goku->setLastname('Son');
         $goku->setRoles([]); //tableau vide accepté, Symfony ajoute ROLE_USER automatiquement à la lecture
         $goku->setIsVerified(true);
+        $goku->setImage('default.png');
         $goku->setPassword($this->passwordHasher->hashPassword($goku, 'Motdepasse123!'));
         //hashPassword() a besoin de l'objet $goku pour connaître l'algorithme lié à sa classe
         $manager->persist($goku); //place l'entité en attente d'insertion, rien n'est écrit en base ici
@@ -40,6 +41,7 @@ class UserFixtures extends Fixture
         $seiya->setLastname('Pegasus');
         $seiya->setRoles([]);
         $seiya->setIsVerified(true);
+        $seiya->setImage('default.png');
         $seiya->setPassword($this->passwordHasher->hashPassword($seiya, 'Motdepasse123!'));
         $manager->persist($seiya);
         $this->addReference(self::USER_SEIYA_REFERENCE, $seiya);
@@ -50,6 +52,7 @@ class UserFixtures extends Fixture
         $simba->setLastname('Roi Lion');
         $simba->setRoles([]);
         $simba->setIsVerified(true);
+        $simba->setImage('default.png');
         $simba->setPassword($this->passwordHasher->hashPassword($simba, 'Motdepasse123!'));
         $manager->persist($simba);
         $this->addReference(self::USER_SIMBA_REFERENCE, $simba);
@@ -59,6 +62,7 @@ class UserFixtures extends Fixture
         $test->setFirstname('Test');
         $test->setLastname('Utilisateur');
         $test->setRoles([]);
+        $test->setImage('default.png');
         $test->setIsVerified(false); //aucune référence ajoutée : cet utilisateur ne recevra pas de vidéo
         $test->setPassword($this->passwordHasher->hashPassword($test, 'Motdepasse123!'));
         $manager->persist($test);

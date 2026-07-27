@@ -14,7 +14,7 @@ class VideoFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         $data = [
-            ['Le Roi Lion (1994)', 'H5ms-Nr9TRE', false, UserFixtures::USER_GOKU_REFERENCE],
+            ['Vice Versa', '8n-cJDFQELA', false, UserFixtures::USER_GOKU_REFERENCE],            
             ['Le Roi Lion (2019)', 'tvvQitXftGk', false, UserFixtures::USER_SEIYA_REFERENCE],
             ['Aladdin (1992)', 'NZqFRTbi7IE', false, UserFixtures::USER_SIMBA_REFERENCE],
             ['Toy Story (1995)', 'q_1wTx-qIpk', false, UserFixtures::USER_GOKU_REFERENCE],
@@ -30,7 +30,7 @@ class VideoFixtures extends Fixture implements DependentFixtureInterface
             ["Chérie, j'ai rétréci les gosses (1989)", 'hwmHwx5kZ8A', false, UserFixtures::USER_GOKU_REFERENCE],
             ['Les Goonies (1985)', 'VWo5MKznBwM', false, UserFixtures::USER_SIMBA_REFERENCE],
 
-            ['Le Roi Lion (1994) - Bande-annonce ressortie 3D', 'EwJ-pPVXnyk', true, UserFixtures::USER_GOKU_REFERENCE],
+            ['Vice Versa - Bande-annonce bonus', 'Ppli1jdJ2wE', true, UserFixtures::USER_GOKU_REFERENCE],
             ['Le Roi Lion (2019) - Teaser officiel VF', 'gQVnhLGdS6c', true, UserFixtures::USER_SEIYA_REFERENCE],
             ['Toy Story (1995) - Spot 30 ans du film', 'zSM0HVks_xo', true, UserFixtures::USER_SIMBA_REFERENCE],
             ['Toy Story 2 (1999) - Bande-annonce alternative', '2FlAUxq1MUU', true, UserFixtures::USER_SEIYA_REFERENCE],
