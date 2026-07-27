@@ -6,8 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-use App\Entity\Video; //entité Video
-use App\Entity\User; //entité User, pour typer $this->getUser()
+use App\Entity\Video;
+use App\Entity\User;
 
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,25 +20,31 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 use Knp\Component\Pager\PaginatorInterface;
 
-class VideoController extends AbstractController //pas de final, pour pouvoir hériter de ce contrôleur
+class VideoController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
     public function index(VideoRepository $videoRepository, PaginatorInterface $paginator, Request $request): Response
     {
-        $search = $request->query->get('search'); //terme recherché depuis l'URL, null si absent
+        $search = $request->query->get('search');
 
         if ($search) {
             /**
              * @var User|null $user
              */
-            $user = $this->getUser(); //null si non connecté
-            $includePremium = $user !== null && $user->isVerified(); //premium visible si connecté et vérifié
+            $user = $this->getUser();
+            $includePremium = $user !== null && $user->isVerified();
 
             $queryBuilder = $videoRepository->findBySearchQueryBuilder($search, $includePremium);
-            $limit = 6; //6 résultats par page pour la recherche
+            $limit = 6;
         } else {
-            $queryBuilder = $videoRepository->findAllQueryBuilder();
-            $limit = 9; //9 vidéos par page pour l'accueil
+            /**
+             * @var User|null $user
+             */
+            $user = $this->getUser();
+            $includePremium = $user !== null && $user->isVerified();
+
+            $queryBuilder = $videoRepository->findAllQueryBuilder($includePremium);
+            $limit = 9;
         }
 
         $videos = $paginator->paginate(

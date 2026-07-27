@@ -16,11 +16,16 @@ class VideoRepository extends ServiceEntityRepository
         parent::__construct($registry, Video::class);
     }
 
-    public function findAllQueryBuilder() //on retourne le QueryBuilder (pas ->getQuery()->getResult()) pour que KnpPaginator exécute lui-même la requête avec LIMIT/OFFSET selon la page demandée
+    public function findAllQueryBuilder(bool $includePremium = false) //$includePremium détermine si les vidéos premium sont incluses
     {
-        return $this->createQueryBuilder('v')
-            ->orderBy('v.createdAt', 'DESC') //vidéos les plus récentes en premier
-        ;
+        $queryBuilder = $this->createQueryBuilder('v')
+            ->orderBy('v.createdAt', 'DESC'); //vidéos les plus récentes en premier
+
+        if (!$includePremium) {
+            $queryBuilder->andWhere('v.premiumVideo = false'); //exclut les vidéos premium pour les non-vérifiés/non connectés
+        }
+
+        return $queryBuilder;
     }
 
     public function findBySearchQueryBuilder(string $search, bool $includePremium = false) //recherche sur title OU description, $includePremium détermine si les vidéos premium sont incluses (connecté + vérifié uniquement)
