@@ -99,6 +99,11 @@ class VideoController extends AbstractController //on supprime final qui a été
     #[IsGranted('IS_AUTHENTICATED_FULLY')] //couche 1 : bloque les utilisateurs non connectés (redirection auto vers /login)
     public function edit(Video $video, Request $request, EntityManagerInterface $entityManager): Response
     {
+        // couche 3 : bloque les utilisateurs connectés qui ne sont pas l'auteur de la vidéo
+        if ($video->getAuteur() !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
+
         // couche 2 : bloque les utilisateurs connectés mais non vérifiés (email non confirmé)
         /**
          * @var User $user
@@ -129,6 +134,11 @@ class VideoController extends AbstractController //on supprime final qui a été
     #[Route('/video/{id}/delete', name: 'app_video_delete')] //route imposée dans les consignes
     public function delete(Video $video, Request $request, EntityManagerInterface $entityManager): Response
     {
+        // bloque les utilisateurs connectés qui ne sont pas l'auteur de la vidéo
+        if ($video->getAuteur() !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
+
         if ($this->isCsrfTokenValid('delete' . $video->getId(), $request->request->get('_token'))) { //vérifie si le tolken csrf est valide (authorisation obligatoire)
             $entityManager->remove($video); // video supprimée
             $entityManager->flush(); //exécute la suppression de la base de donnée
