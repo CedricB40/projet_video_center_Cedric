@@ -27,3 +27,5 @@
 /public/uploads/images/users/*
 !/public/uploads/images/users/default.png
 ###< uploads utilisateurs ###
+
+liste.txt
