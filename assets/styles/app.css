@@ -1,3 +1,50 @@
+:root {
+    --color-bg-main: #141414;
+    --color-bg-card: #1e1e1e;
+    --color-accent: #1DB954;
+    --color-accent-hover: #17a34a;
+    --color-text-main: #ededed;
+    --color-text-secondary: #b3b3b3;
+}
+
 body {
-    background-color: skyblue;
+    background-color: var(--color-bg-main);
+    color: var(--color-text-main);
+}
+
+.navbar {
+    background-color: var(--color-bg-card) !important;
+}
+
+.navbar .nav-link,
+.navbar-brand {
+    color: var(--color-text-main) !important;
+}
+
+.navbar .nav-link:hover {
+    color: var(--color-accent) !important;
+}
+
+.btn-primary {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-accent-hover);
+    border-color: var(--color-accent-hover);
+}
+
+.card {
+    background-color: var(--color-bg-card);
+    color: var(--color-text-main);
+    border: none;
+}
+
+.card a {
+    color: var(--color-text-main);
+}
+
+.text-muted {
+    color: var(--color-text-secondary) !important;
 }
