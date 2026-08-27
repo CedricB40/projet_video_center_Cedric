@@ -22,7 +22,7 @@ use Knp\Component\Pager\PaginatorInterface;
 
 class VideoController extends AbstractController
 {
-    #[Route('/', name: 'app_home')]
+    #[Route(path: '/', name: 'app_home')]
     public function index(VideoRepository $videoRepository, PaginatorInterface $paginator, Request $request): Response
     {
         $search = $request->query->get('search');
@@ -59,7 +59,7 @@ class VideoController extends AbstractController
         ]);
     }
 
-    #[Route('/video/create', name: 'app_video_create')]
+    #[Route(path: '/video/create', name: 'app_video_create')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')] //couche 1 : bloque si non connecté
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -93,7 +93,7 @@ class VideoController extends AbstractController
         ]);
     }
 
-    #[Route('/video/{id}', name: 'app_video_show')]
+    #[Route(path: '/video/{id}', name: 'app_video_show')]
     public function show(Video $video): Response
     {
         /**
@@ -113,7 +113,7 @@ class VideoController extends AbstractController
         ]);
     }
 
-    #[Route('/video/{id}/edit', name: 'app_video_edit')]
+    #[Route(path: '/video/{id}/edit', name: 'app_video_edit')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')] //couche 1 : bloque si non connecté
     public function edit(Video $video, Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -149,7 +149,7 @@ class VideoController extends AbstractController
         ]);
     }
 
-    #[Route('/video/{id}/delete', name: 'app_video_delete')]
+    #[Route(path: '/video/{id}/delete', name: 'app_video_delete')]
     public function delete(Video $video, Request $request, EntityManagerInterface $entityManager): Response
     {
         // bloque si pas l'auteur
