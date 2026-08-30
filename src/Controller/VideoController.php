@@ -85,6 +85,8 @@ class VideoController extends AbstractController
             $entityManager->persist($video);
             $entityManager->flush();
 
+            $this->addFlash('success', 'La vidéo a bien été créée.');
+
             return $this->redirectToRoute('app_home');
         }
 
@@ -140,6 +142,8 @@ class VideoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush(); //pas de persist, $video déjà connue de Doctrine
+
+            $this->addFlash('success', 'La vidéo a bien été modifiée.');
 
             return $this->redirectToRoute('app_video_show', ['id' => $video->getId()]);
         }
