@@ -36,8 +36,7 @@
 					<div class="card">
 						<div class="card-body">
 							<h5 class="card-title">
-								
-									href="{{ path('app_video_show', {id: video.id}) }}">
+								<a href="{{ path('app_video_show', {id: video.id}) }}">
 									{# lien cliquable vers show #}
 									{{ video.title|u.truncate(20, '...', true) }}
 									{# titre tronqué à 20 caractères #}
