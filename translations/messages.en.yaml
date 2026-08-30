@@ -10,6 +10,7 @@ videoForm.videoLink: 'Video link'
 videoForm.videoLinkHelp: 'Paste the link in "embed" format (e.g. https://www.youtube.com/embed/XXXXXXXXXXX), not the classic "watch?v=" link.'
 videoForm.description: Description
 videoForm.premiumVideo: 'Premium video'
+videoBadge.premium: 'Premium'
 
 registerForm.email: Email
 registerForm.firstname: First name
@@ -35,6 +36,7 @@ showTemplate.back: Back
 showTemplate.edit: Edit
 showTemplate.delete: Delete
 showTemplate.confirmDelete: 'Are you sure you want to delete this video?'
+showTemplate.cancel: Cancel
 
 videoCreateTemplate.title: 'Create a video'
 videoCreateTemplate.button: Create
@@ -68,6 +70,7 @@ accountTemplate.lastname: 'Last name:'
 accountTemplate.memberSince: 'Member since:'
 accountTemplate.editProfile: 'Edit my profile'
 accountTemplate.myVideos: 'My videos'
+accountTemplate.noVideos: "You haven't published any video yet."
 
 accountEditTemplate.title: 'Edit my profile'
 accountEditTemplate.saveButton: Save
@@ -103,3 +106,9 @@ flash.welcome: 'Welcome %firstname%!'
 
 email.confirmationSubject: 'Confirm your email address'
 email.resetPasswordSubject: 'Password reset'
+
+errorTemplate.404Title: 'Page not found'
+errorTemplate.404Message: "This page doesn't exist, or doesn't anymore. It may have moved, or the address might be wrong."
+errorTemplate.genericTitle: 'Something went wrong'
+errorTemplate.genericMessage: 'Something broke on our end. Please try again in a moment.'
+errorTemplate.backHome: 'Back to home'

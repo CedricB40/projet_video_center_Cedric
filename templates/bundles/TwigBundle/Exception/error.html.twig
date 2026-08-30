@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'errorTemplate.genericTitle'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="error-page">
+        <div class="error-code">{{ status_code|default(500) }}</div>
+        <h1>{{ 'errorTemplate.genericTitle'|trans }}</h1>
+        <p>{{ 'errorTemplate.genericMessage'|trans }}</p>
+        <a href="{{ path('app_home') }}" class="btn btn-primary">{{ 'errorTemplate.backHome'|trans }}</a>
+    </div>
+{% endblock %}

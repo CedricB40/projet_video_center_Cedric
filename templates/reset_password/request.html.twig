@@ -3,19 +3,25 @@
 {% block title %}{{ 'resetRequestTemplate.title'|trans }}{% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('reset_password_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
-    <h1>{{ 'resetRequestTemplate.title'|trans }}</h1>
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                {% for flash_error in app.flashes('reset_password_error') %}
+                    <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                {% endfor %}
+                <h1>{{ 'resetRequestTemplate.title'|trans }}</h1>
 
-    {{ form_start(requestForm, {'attr': {'data-turbo': 'false'}}) }}
-        {{ form_row(requestForm.email) }}
-        <div>
-            <small>
-                {{ 'resetRequestTemplate.hint'|trans }}
-            </small>
+                {{ form_start(requestForm, {'attr': {'data-turbo': 'false'}}) }}
+                    {{ form_row(requestForm.email) }}
+                    <div>
+                        <small>
+                            {{ 'resetRequestTemplate.hint'|trans }}
+                        </small>
+                    </div>
+
+                    <button class="btn btn-primary mt-3">{{ 'resetRequestTemplate.button'|trans }}</button>
+                {{ form_end(requestForm) }}
+            </div>
         </div>
-
-        <button class="btn btn-primary">{{ 'resetRequestTemplate.button'|trans }}</button>
-    {{ form_end(requestForm) }}
+    </div>
 {% endblock %}

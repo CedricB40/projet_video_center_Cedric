@@ -10,6 +10,7 @@ videoForm.videoLink: 'Lien vidéo'
 videoForm.videoLinkHelp: 'Collez le lien au format "embed" (ex : https://www.youtube.com/embed/XXXXXXXXXXX), pas le lien classique "watch?v=".'
 videoForm.description: Description
 videoForm.premiumVideo: 'Vidéo premium'
+videoBadge.premium: 'Premium'
 
 registerForm.email: Email
 registerForm.firstname: Prénom
@@ -35,6 +36,7 @@ showTemplate.back: Retour
 showTemplate.edit: Éditer
 showTemplate.delete: Supprimer
 showTemplate.confirmDelete: 'Êtes-vous sûr de vouloir supprimer cette vidéo ?'
+showTemplate.cancel: Annuler
 
 videoCreateTemplate.title: 'Créer une vidéo'
 videoCreateTemplate.button: Créer
@@ -68,6 +70,7 @@ accountTemplate.lastname: 'Nom :'
 accountTemplate.memberSince: 'Membre depuis :'
 accountTemplate.editProfile: 'Modifier mon profil'
 accountTemplate.myVideos: 'Mes vidéos'
+accountTemplate.noVideos: "Vous n'avez pas encore publié de vidéo."
 
 accountEditTemplate.title: 'Modifier mon profil'
 accountEditTemplate.saveButton: Enregistrer
@@ -103,3 +106,9 @@ flash.welcome: 'Bienvenue %firstname% !'
 
 email.confirmationSubject: 'Confirmez votre adresse email'
 email.resetPasswordSubject: 'Réinitialisation de votre mot de passe'
+
+errorTemplate.404Title: 'Page introuvable'
+errorTemplate.404Message: "Cette page n'existe pas ou plus. Elle a peut-être été déplacée ou l'adresse comporte une erreur."
+errorTemplate.genericTitle: 'Une erreur est survenue'
+errorTemplate.genericMessage: "Quelque chose s'est mal passé de notre côté. Merci de réessayer dans un instant."
+errorTemplate.backHome: "Retour à l'accueil"

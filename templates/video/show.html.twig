@@ -11,7 +11,12 @@
 				class="col-md-8">
 				{# colonne plus large que create/edit, pour laisser la place à l'iframe 640px #}
 
-				<h1>{{ video.title }}</h1>
+				<h1>
+					{{ video.title }}
+					{% if video.premiumVideo %}
+						<span class="badge-premium badge-premium-inline">{{ 'videoBadge.premium'|trans }}</span>
+					{% endif %}
+				</h1>
 
 				<iframe width="640" height="480" src="{{ video.videoLink }}" title="{{ video.title }}" frameborder="0" allowfullscreen></iframe>
 				{# dimensions imposées par le PDF pour show #}
@@ -34,14 +39,31 @@
 					<a href="{{ path('app_video_edit', {id: video.id}) }}" class="btn btn-warning">{{ 'showTemplate.edit'|trans }}</a>
 					{# lien vers l'édition de cette vidéo précise #}
 
-					<form
-						method="post" action="{{ path('app_video_delete', {id: video.id}) }}" class="d-inline" onsubmit="return confirm('{{ 'showTemplate.confirmDelete'|trans|e('js') }}');">
-						{# formulaire POST requis pour la suppression, confirmation JS avant l'envoi #}
-						<input
-						type="hidden" name="_token" value="{{ csrf_token('delete' ~ video.id) }}">
-						{# token CSRF, doit correspondre à la clé utilisée dans le contrôleur #}
-						<button type="submit" class="btn btn-danger">{{ 'showTemplate.delete'|trans }}</button>
-					</form>
+					{# bouton qui ouvre la modale de confirmation au lieu du confirm() natif du navigateur #}
+					<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteVideoModal">{{ 'showTemplate.delete'|trans }}</button>
+
+					<div class="modal fade" id="deleteVideoModal" tabindex="-1" aria-labelledby="deleteVideoModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="deleteVideoModalLabel">{{ 'showTemplate.delete'|trans }}</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									{{ 'showTemplate.confirmDelete'|trans }}
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'showTemplate.cancel'|trans }}</button>
+									<form method="post" action="{{ path('app_video_delete', {id: video.id}) }}" class="d-inline">
+										{# formulaire POST requis pour la suppression ; la confirmation passe maintenant par la modale ci-dessus #}
+										<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ video.id) }}">
+										{# token CSRF, doit correspondre à la clé utilisée dans le contrôleur #}
+										<button type="submit" class="btn btn-danger">{{ 'showTemplate.delete'|trans }}</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
 				{% endif %}
 
 			</div>

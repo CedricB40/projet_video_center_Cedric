@@ -28,7 +28,8 @@
 				<div
 					class="col-md-4 mb-4">
 					{# 3 vidéos par ligne sur desktop #}
-					<div class="card">
+					<div class="card{% if video.premiumVideo %} card-premium{% endif %}">
+						{# bordure dorée ajoutée aux vidéos premium pour les repérer d'un coup d'œil #}
 						<div class="card-body">
 							<h5 class="card-title">
 								<a href="{{ path('app_video_show', {id: video.id}) }}">
@@ -37,8 +38,13 @@
 									{# titre tronqué à 20 caractères #}
 								</a>
 							</h5>
-							<iframe width="300" height="200" src="{{ video.videoLink }}" title="{{ video.title }}" frameborder="0" allowfullscreen></iframe>
-							{# dimensions imposées pour index #}
+							<div class="position-relative d-inline-block">
+								{% if video.premiumVideo %}
+									<span class="badge-premium">{{ 'videoBadge.premium'|trans }}</span>
+								{% endif %}
+								<iframe width="300" height="200" src="{{ video.videoLink }}" title="{{ video.title }}" frameborder="0" allowfullscreen></iframe>
+								{# dimensions imposées pour index #}
+							</div>
 							<p class="card-text mt-2">{{ video.description|u.truncate(25, '...', true) }}</p>
 							{# description tronquée à 25 caractères #}
 							<p class="text-muted small mb-1">
@@ -52,8 +58,11 @@
 					</div>
 				</div>
 			{% else %}
-				<p>{{ 'homeTemplate.noResults'|trans }}</p>
-				{# affiché si la boucle for n'a rien à itérer #}
+				{# état vide plus travaillé qu'un simple texte : icône + message, affiché si la boucle for n'a rien à itérer #}
+				<div class="empty-state">
+					<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3"></path><path d="M8 11h6"></path></svg>
+					<p>{{ 'homeTemplate.noResults'|trans }}</p>
+				</div>
 			{% endfor %}
 		</div>
 	</div>

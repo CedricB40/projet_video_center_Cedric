@@ -1,19 +1,177 @@
 :root {
     --color-bg-main: #141414;
     --color-bg-card: #1e1e1e;
+    --color-bg-input: #2a2a2a;
+    --color-border: #333333;
     --color-accent: #1DB954;
     --color-accent-hover: #17a34a;
+    --color-premium: #f5c518;
+    --color-premium-text: #2a2000;
     --color-text-main: #ededed;
     --color-text-secondary: #b3b3b3;
+    --radius: 0.5rem;
+    --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.4);
+    --font-heading: 'Poppins', 'Inter', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --gradient-accent: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+    --navbar-bg: rgba(30, 30, 30, 0.85);
+    --body-tint: rgba(29, 185, 84, 0.08);
+
+    --color-danger-text: #f5a3a3;
+    --color-danger-border: #7a2a2a;
+    --color-success-text: #8fe3ac;
+    --color-success-border: #1f5c38;
+    --color-info-text: #8fc9e3;
+    --color-info-border: #1f4a5c;
+}
+
+/* --- Thème clair ---
+   Comme toutes les couleurs de la feuille sont déjà posées via des variables
+   CSS, il suffit de les redéfinir ici : chaque règle qui utilise var(--color-*)
+   s'adapte automatiquement, sans dupliquer les sélecteurs. L'attribut
+   data-bs-theme="light" est posé sur <html> par le bouton de bascule (voir
+   assets/controllers/theme_controller.js) et par le script inline de
+   base.html.twig au chargement (pour restaurer le choix mémorisé). */
+[data-bs-theme="light"] {
+    --color-bg-main: #f6f7f8;
+    --color-bg-card: #ffffff;
+    --color-bg-input: #eef0f2;
+    --color-border: #dcdfe3;
+    --color-text-main: #1a1a1a;
+    --color-text-secondary: #5c5f66;
+    /* Le vert accent original (#1DB954) est pensé pour un fond sombre : sur
+       blanc, son contraste tombe à 2.6:1 (le seuil WCAG AA pour du texte est
+       4.5:1), ce qui le rend limite pour les liens et illisible en texte de
+       bouton. Ces deux teintes plus foncées, même famille de couleur, passent
+       à 4.8:1 et 6.7:1 sur fond clair — vérifié par calcul, pas à l'œil. */
+    --color-accent: #15843C;
+    --color-accent-hover: #116A30;
+    --shadow-card: 0 2px 10px rgba(20, 20, 20, 0.08);
+    --navbar-bg: rgba(255, 255, 255, 0.85);
+    --body-tint: rgba(29, 185, 84, 0.06);
+
+    --color-danger-text: #b02a37;
+    --color-danger-border: #f1aeb5;
+    --color-success-text: #146c43;
+    --color-success-border: #a3cfbb;
+    --color-info-text: #087990;
+    --color-info-border: #9eeaf9;
+}
+
+/* --- Base & typographie --- */
+
+html, body {
+    height: 100%;
+}
+
+html {
+    /* Filet de sécurité : empêche toute barre de défilement horizontale
+       sur mobile si un contenu déborde malgré overflow-wrap ci-dessous
+       (ex : une longue URL ou un mot sans espace dans un titre/description). */
+    overflow-x: hidden;
 }
 
 body {
-    background-color: var(--color-bg-main);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* dégradé radial très subtil au lieu d'un aplat uni : donne de la
+       profondeur sans jamais gêner la lisibilité du texte */
+    background:
+        radial-gradient(ellipse 1200px 600px at 50% -10%, var(--body-tint), transparent 60%),
+        var(--color-bg-main);
+    background-attachment: fixed;
     color: var(--color-text-main);
+    font-family: var(--font-body);
+    transition: background-color 0.2s ease, color 0.2s ease;
+    /* Casse les mots trop longs (titre/description saisis sans espaces,
+       lien collé) plutôt que de laisser le texte déborder du viewport et
+       provoquer un scroll horizontal sur mobile. */
+    overflow-wrap: anywhere;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    color: var(--color-text-main);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+a {
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+a:hover {
+    color: var(--color-accent-hover);
+    text-decoration: underline;
+}
+
+::selection {
+    background-color: var(--color-accent);
+    color: #0a0a0a;
+}
+
+/* Barre de progression affichée par Turbo (symfony/ux-turbo) en haut de
+   l'écran pendant les navigations : bleue par défaut, recolorée en vert
+   accent pour rester dans la charte. */
+.turbo-progress-bar {
+    background-color: var(--color-accent) !important;
+}
+
+/* Contour clavier (Tab) cohérent avec la charte, à la place du bleu par
+   défaut du navigateur — utile aussi pour l'accessibilité. */
+:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+/* Scrollbar personnalisée (Chrome/Edge/Safari) */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-bg-main);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--color-border);
+    border-radius: 999px;
+    border: 2px solid var(--color-bg-main);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-accent);
+}
+
+/* Scrollbar personnalisée (Firefox) */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) var(--color-bg-main);
+}
+
+.text-muted {
+    color: var(--color-text-secondary) !important;
+}
+
+hr, .border-bottom {
+    border-color: var(--color-border) !important;
+}
+
+/* --- Navbar --- */
+
 .navbar {
-    background-color: var(--color-bg-card) !important;
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    background-color: var(--navbar-bg) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--color-border);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .navbar .nav-link,
@@ -25,26 +183,523 @@ body {
     color: var(--color-accent) !important;
 }
 
-.btn-primary {
-    background-color: var(--color-accent);
-    border-color: var(--color-accent);
+.navbar-brand {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    font-size: 1.35rem;
 }
 
-.btn-primary:hover {
-    background-color: var(--color-accent-hover);
-    border-color: var(--color-accent-hover);
+/* Icône du menu hamburger mobile : le SVG par défaut de Bootstrap (classe
+   navbar-dark posée dans le template, quel que soit le thème) est en traits
+   blancs, invisible sur une navbar claire une fois le thème clair activé. */
+[data-bs-theme="light"] .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(26,26,26,0.75)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
+
+/* --- Bouton de bascule thème sombre/clair --- */
+
+.theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-main);
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.3s ease, border-color 0.15s ease;
+}
+
+.theme-toggle:hover {
+    background-color: var(--color-bg-input);
+    border-color: var(--color-accent);
+    transform: rotate(20deg);
+}
+
+.theme-toggle .icon-moon {
+    display: none;
+}
+
+[data-bs-theme="light"] .theme-toggle .icon-sun {
+    display: none;
+}
+
+[data-bs-theme="light"] .theme-toggle .icon-moon {
+    display: block;
+}
+
+/* --- Footer --- */
+
+footer {
+    color: var(--color-text-secondary);
+}
+
+/* Sélecteur "footer.my-4" (et pas juste "footer") : il faut égaler la
+   spécificité de la classe Bootstrap "my-4" posée dans le template
+   (elle-même !important) pour pouvoir la battre. Un simple élément "footer"
+   perd toujours face à une classe, même avec !important des deux côtés. */
+footer.my-4 {
+    margin-top: auto !important;
+}
+
+footer .nav-link {
+    color: var(--color-text-secondary);
+}
+
+footer .nav-link:hover {
+    color: var(--color-accent);
+}
+
+/* --- Cards (vignettes vidéo) --- */
 
 .card {
     background-color: var(--color-bg-card);
     color: var(--color-text-main);
     border: none;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-card);
+    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px) scale(1.015);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
 }
 
 .card a {
     color: var(--color-text-main);
 }
 
-.text-muted {
-    color: var(--color-text-secondary) !important;
+.card a:hover {
+    color: var(--color-accent);
+}
+
+.card-title {
+    font-family: var(--font-heading);
+    font-weight: 600;
+}
+
+/* Effet "cinéma" : la vignette zoome légèrement au survol de la card,
+   contenue par overflow:hidden pour ne jamais déborder du cadre arrondi. */
+.card .position-relative {
+    overflow: hidden;
+    border-radius: calc(var(--radius) - 0.15rem);
+}
+
+.card .position-relative iframe {
+    transition: transform 0.3s ease;
+}
+
+.card:hover .position-relative iframe {
+    transform: scale(1.05);
+}
+
+/* --- Boutons --- */
+
+.btn {
+    border-radius: 50rem;
+    font-weight: 600;
+    padding-left: 1.15rem;
+    padding-right: 1.15rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease, filter 0.15s ease;
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+.btn-primary {
+    background: var(--gradient-accent);
+    border-color: var(--color-accent);
+}
+
+.btn-primary:hover {
+    background: var(--gradient-accent);
+    border-color: var(--color-accent-hover);
+    box-shadow: 0 4px 16px rgba(29, 185, 84, 0.4);
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background-color: var(--color-bg-input);
+    border-color: var(--color-border);
+    color: var(--color-text-main);
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-border);
+    border-color: var(--color-border);
+    color: var(--color-text-main);
+    transform: translateY(-1px);
+}
+
+.btn-warning:hover,
+.btn-danger:hover {
+    filter: brightness(0.9);
+    transform: translateY(-1px);
+}
+
+/* --- Formulaires --- */
+
+.form-control,
+.form-select {
+    background-color: var(--color-bg-input);
+    border-color: var(--color-border);
+    color: var(--color-text-main);
+}
+
+.form-control:focus,
+.form-select:focus {
+    background-color: var(--color-bg-input);
+    border-color: var(--color-accent);
+    color: var(--color-text-main);
+    box-shadow: 0 0 0 0.2rem rgba(29, 185, 84, 0.25);
+}
+
+.form-control::placeholder {
+    color: var(--color-text-secondary);
+}
+
+.form-label {
+    color: var(--color-text-main);
+    font-weight: 500;
+}
+
+/* Espacement générique label/input, utile notamment pour les formulaires
+   qui ne passent pas par form_row() (ex: security/login.html.twig) et
+   n'héritent donc pas des classes Bootstrap mb-3 posées automatiquement
+   ailleurs. Sans effet perturbateur sur les formulaires qui ont déjà
+   leurs marges : ça ne fait qu'ajouter un espacement cohérent. */
+form label {
+    display: block;
+    margin-top: 0.75rem;
+    margin-bottom: 0.35rem;
+    font-weight: 500;
+    color: var(--color-text-main);
+}
+
+form input.form-control {
+    margin-bottom: 0.5rem;
+}
+
+/* Champ d'upload de fichier (photo de profil, account/edit) : le widget
+   VichImageType n'hérite PAS de la classe "form-control" que les autres
+   champs du formulaire reçoivent (vérifié dans le DOM rendu), donc les
+   règles .form-control ci-dessus ne s'appliquaient pas à lui — d'où un
+   sélecteur générique input[type="file"] plutôt que ciblé sur .form-control.
+   ::file-selector-button restyle le bouton "Choisir un fichier", natif du
+   navigateur par défaut et hors charte. */
+input[type="file"] {
+    color: var(--color-text-main);
+}
+
+input[type="file"]::file-selector-button {
+    background: var(--gradient-accent);
+    color: #fff;
+    border: none;
+    border-radius: 50rem;
+    padding: 0.375rem 0.9rem;
+    margin-right: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: filter 0.15s ease;
+}
+
+input[type="file"]::file-selector-button:hover {
+    filter: brightness(1.1);
+}
+
+/* --- Alertes (messages flash, erreurs) --- */
+
+.alert {
+    background-color: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+}
+
+.alert-danger {
+    color: var(--color-danger-text);
+    border-color: var(--color-danger-border);
+}
+
+.alert-success {
+    color: var(--color-success-text);
+    border-color: var(--color-success-border);
+}
+
+.alert-info {
+    color: var(--color-info-text);
+    border-color: var(--color-info-border);
+}
+
+/* --- Pagination (KnpPaginatorBundle) ---
+   Le template par défaut de KnpPaginator ne génère PAS le balisage Bootstrap
+   habituel (ul.pagination > li.page-item > a.page-link) : il produit un
+   simple <div class="pagination"> contenant des <span> avec ses propres
+   classes ("current", "page", "previous", "next", "first", "last", "dots").
+   D'où les sélecteurs ci-dessous, vérifiés sur le rendu réel de la page. */
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+.pagination a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.25rem;
+    height: 2.25rem;
+    padding: 0 0.7rem;
+    border-radius: 50rem;
+    background-color: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-main);
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pagination a:hover {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #fff;
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(29, 185, 84, 0.35);
+}
+
+.pagination .current {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.25rem;
+    height: 2.25rem;
+    padding: 0 0.7rem;
+    border-radius: 50rem;
+    background: var(--gradient-accent);
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(29, 185, 84, 0.35);
+}
+
+.pagination .dots {
+    color: var(--color-text-secondary);
+    padding: 0 0.25rem;
+}
+
+/* --- Vidéos premium --- */
+
+/* Bordure dorée sur toute la card, pour repérer les vidéos premium
+   d'un coup d'œil dans la grille (video/index et account/index). */
+.card-premium {
+    border: 2px solid var(--color-premium) !important;
+    box-shadow: 0 0 0 1px var(--color-premium), var(--shadow-card);
+}
+
+/* Badge posé sur la vignette (position absolute, coin haut-gauche). */
+.badge-premium {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    z-index: 2;
+    background-color: var(--color-premium);
+    color: var(--color-premium-text);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.25rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Variante utilisée à côté du titre sur video/show : plus besoin du
+   positionnement absolu, elle suit le flux normal du texte. */
+.badge-premium-inline {
+    position: static;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+    font-size: 0.9rem;
+}
+
+/* --- Avatar profil (account/index) --- */
+
+.profile-avatar {
+    display: block;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 2px solid var(--color-border);
+    box-shadow: var(--shadow-card);
+}
+
+/* --- État vide (recherche sans résultat) --- */
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--color-text-secondary);
+    animation: fadeInUp 0.4s ease both;
+}
+
+.empty-state svg {
+    color: var(--color-border);
+    margin-bottom: 1rem;
+}
+
+.empty-state p {
+    margin: 0;
+    font-size: 1.05rem;
+}
+
+/* --- Modales (ex : confirmation de suppression) --- */
+
+.modal-content {
+    background-color: var(--color-bg-card);
+    color: var(--color-text-main);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+}
+
+.modal-header,
+.modal-footer {
+    border-color: var(--color-border);
+}
+
+/* --- Pages d'erreur (404, 500...) --- */
+
+.error-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex: 1;
+    padding: 4rem 1rem;
+}
+
+.error-page .error-code {
+    font-family: var(--font-heading);
+    font-size: 6rem;
+    font-weight: 800;
+    line-height: 1;
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.error-page p {
+    color: var(--color-text-secondary);
+    font-size: 1.1rem;
+    max-width: 32rem;
+    margin: 1rem 0 2rem;
+}
+
+/* --- Animations d'apparition --- */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5); }
+    50% { box-shadow: 0 0 0 4px rgba(245, 197, 24, 0.25), 0 1px 4px rgba(0, 0, 0, 0.5); }
+}
+
+/* Le h1 de chaque page apparaît en premier, seul, avant le reste du contenu */
+h1 {
+    animation: fadeInUp 0.5s ease both;
+}
+
+/* Les cards vidéo apparaissent en cascade : chaque colonne de la grille a un
+   léger délai supplémentaire par rapport à la précédente, pour un effet de
+   vague plutôt qu'un bloc qui apparaît d'un coup. Comme le projet utilise
+   Turbo (symfony/ux-turbo), le DOM est remplacé à chaque navigation : ces
+   animations rejouent donc naturellement à chaque changement de page. */
+.row > div {
+    animation: fadeInUp 0.45s ease both;
+}
+
+.row > div:nth-child(1) { animation-delay: 0.04s; }
+.row > div:nth-child(2) { animation-delay: 0.09s; }
+.row > div:nth-child(3) { animation-delay: 0.14s; }
+.row > div:nth-child(4) { animation-delay: 0.19s; }
+.row > div:nth-child(5) { animation-delay: 0.24s; }
+.row > div:nth-child(6) { animation-delay: 0.29s; }
+.row > div:nth-child(7) { animation-delay: 0.34s; }
+.row > div:nth-child(8) { animation-delay: 0.39s; }
+.row > div:nth-child(9) { animation-delay: 0.44s; }
+.row > div:nth-child(n+10) { animation-delay: 0.48s; }
+
+.alert {
+    animation: fadeInUp 0.35s ease both;
+}
+
+/* Le badge premium respire doucement pour attirer l'œil sans être criard */
+.badge-premium {
+    animation: pulseGlow 2.5s ease-in-out infinite;
+}
+
+/* Soulignement animé des liens de navbar : une barre qui grandit depuis le
+   centre au survol, plus élégant que le underline brut du navigateur */
+.navbar .nav-link {
+    position: relative;
+}
+
+.navbar .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-accent);
+    transition: width 0.2s ease, left 0.2s ease;
+}
+
+.navbar .nav-link:hover::after {
+    width: 80%;
+    left: 10%;
+}
+
+/* Respecte les personnes qui ont demandé de réduire les animations
+   (préférence système "reduce motion") : on coupe tout, par accessibilité */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+    }
+}
+
+/* --- Iframes vidéo --- */
+
+iframe {
+    border-radius: var(--radius);
+    border: 1px solid var(--color-border);
+    max-width: 100%;
 }
