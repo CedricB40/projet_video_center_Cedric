@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier la vidéo
+{% block title %}{{ 'videoEditTemplate.title'|trans }}
 {% endblock %}
 
 {% block body %}
@@ -10,9 +10,10 @@
 				class="col-md-6">
 				{# colonne centrée, largeur limitée pour desktop #}
 
-				<h1>Modifier la vidéo</h1>
+				<h1>{{ 'videoEditTemplate.title'|trans }}</h1>
 
 				{{ form_start(form, {'attr': {'novalidate': 'novalidate', 'data-turbo': 'false'}}) }}
+				{# ouvre la balise form + désactive la validation native du navigateur et Turbo, pour laisser nos messages Symfony s'afficher #}
 				{{ form_errors(form.title) }}
 				{# erreurs spécifiques au champ titre #}
 				{{ form_errors(form.videoLink) }}
@@ -22,7 +23,7 @@
 				{{ form_widget(form) }}
 				{# affiche automatiquement tous les champs du formulaire #}
 
-				<button type="submit" class="btn btn-primary mt-3">Modifier</button>
+				<button type="submit" class="btn btn-primary mt-3">{{ 'videoEditTemplate.button'|trans }}</button>
 				{# bouton de soumission Bootstrap #}
 
 				{{ form_end(form) }}

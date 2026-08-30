@@ -20,3 +20,72 @@ registerForm.plainPassword: 'Mot de passe'
 accountForm.firstname: Prénom
 accountForm.lastname: Nom
 accountForm.imageFile: 'Photo de profil'
+
+homeTemplate.title: 'Liste des vidéos'
+homeTemplate.searchPlaceholder: 'Rechercher une vidéo...'
+homeTemplate.searchButton: Rechercher
+homeTemplate.searchResults: '%count% vidéo(s) trouvée(s) avec le terme "%term%"'
+homeTemplate.noResults: 'Aucune vidéo trouvée.'
+homeTemplate.author: Par
+homeTemplate.uploaded: 'Mise en ligne'
+
+showTemplate.author: Par
+showTemplate.publishedOn: 'Publiée le'
+showTemplate.back: Retour
+showTemplate.edit: Éditer
+showTemplate.delete: Supprimer
+showTemplate.confirmDelete: 'Êtes-vous sûr de vouloir supprimer cette vidéo ?'
+
+videoCreateTemplate.title: 'Créer une vidéo'
+videoCreateTemplate.button: Créer
+videoEditTemplate.title: 'Modifier la vidéo'
+videoEditTemplate.button: Modifier
+
+loginTemplate.title: 'Veuillez vous connecter'
+loginTemplate.email: Email
+loginTemplate.password: 'Mot de passe'
+loginTemplate.forgotPassword: 'Mot de passe oublié ?'
+loginTemplate.notRegistered: 'Pas encore enregistré ?'
+loginTemplate.createAccount: 'Crée un compte'
+loginTemplate.button: 'Se connecter'
+loginTemplate.connectedAs: 'Vous êtes connecté en tant que'
+loginTemplate.logout: 'Se déconnecter'
+
+registerTemplate.title: Inscription
+registerTemplate.heading: 'Créer un compte'
+registerTemplate.button: "S'inscrire"
+
+confirmationEmail.greeting: 'Bonjour !'
+confirmationEmail.body: 'Merci de confirmer votre adresse email en cliquant sur le lien suivant :'
+confirmationEmail.link: 'Confirmer mon email'
+confirmationEmail.expiresIn: 'Ce lien expirera dans'
+confirmationEmail.signature: 'Cordialement !'
+
+accountTemplate.title: 'Mon profil'
+accountTemplate.email: 'Email :'
+accountTemplate.firstname: 'Prénom :'
+accountTemplate.lastname: 'Nom :'
+accountTemplate.memberSince: 'Membre depuis :'
+accountTemplate.editProfile: 'Modifier mon profil'
+accountTemplate.myVideos: 'Mes vidéos'
+
+accountEditTemplate.title: 'Modifier mon profil'
+accountEditTemplate.saveButton: Enregistrer
+accountEditTemplate.backButton: Retour
+
+resetPasswordTemplate.title: 'Réinitialiser votre mot de passe'
+resetPasswordTemplate.button: 'Réinitialiser le mot de passe'
+
+resetRequestTemplate.title: 'Réinitialiser votre mot de passe'
+resetRequestTemplate.hint: 'Saisissez votre adresse email, nous vous enverrons un lien pour réinitialiser votre mot de passe.'
+resetRequestTemplate.button: "Envoyer l'email de réinitialisation"
+
+resetPasswordEmail.greeting: 'Bonjour !'
+resetPasswordEmail.body: 'Pour réinitialiser votre mot de passe, veuillez visiter le lien suivant'
+resetPasswordEmail.expiresIn: 'Ce lien expirera dans'
+resetPasswordEmail.signature: 'Cordialement !'
+
+checkEmailTemplate.title: 'Email de réinitialisation envoyé'
+checkEmailTemplate.body: 'Si un compte correspondant à votre email existe, un email vient de vous être envoyé avec un lien pour réinitialiser votre mot de passe. Ce lien expirera dans'
+checkEmailTemplate.noEmail: "Si vous ne recevez pas d'email, vérifiez votre dossier spam ou"
+checkEmailTemplate.retry: 'réessayez'

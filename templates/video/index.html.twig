@@ -1,25 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil - Liste des vidéos
+{% block title %}{{ 'homeTemplate.title'|trans }}
 {% endblock %}
 
 {% block body %}
 	<div class="container mt-4">
-		<h1>Liste des vidéos</h1>
+		<h1>{{ 'homeTemplate.title'|trans }}</h1>
 
 		{% if app.user %}
 			{# barre de recherche visible uniquement si connecté, imposé par le cahier des charges #}
 			<form method="get" action="{{ path('app_home') }}" class="mb-3">
 				<div class="input-group">
-					<input type="text" name="search" class="form-control" placeholder="Rechercher une vidéo..." value="{{ search }}">
-					<button class="btn btn-primary" type="submit">Rechercher</button>
+					<input type="text" name="search" class="form-control" placeholder="{{ 'homeTemplate.searchPlaceholder'|trans }}" value="{{ search }}">
+					<button class="btn btn-primary" type="submit">{{ 'homeTemplate.searchButton'|trans }}</button>
 				</div>
 			</form>
 
 			{% if search %}
 				{# compteur affiché uniquement si une recherche est active #}
-				<p>{{ videos.getTotalItemCount() }}
-					vidéo(s) trouvée(s) avec le terme "{{ search }}"</p>
+				<p>{{ 'homeTemplate.searchResults'|trans({'%count%': videos.getTotalItemCount(), '%term%': search}) }}</p>
 			{% endif %}
 		{% endif %}
 
@@ -44,16 +43,16 @@
 							{# description tronquée à 25 caractères #}
 							<p class="text-muted small mb-1">
 								<img src="{{ vich_uploader_asset(video.auteur, 'imageFile')|imagine_filter('user_thumbnail') }}" alt="{{ video.auteur.firstname }}" width="24" height="24" class="rounded-circle">
-								Par {{ video.auteur.firstname }} {{ video.auteur.lastname }}</p>
+								{{ 'homeTemplate.author'|trans }} {{ video.auteur.firstname }} {{ video.auteur.lastname }}</p>
 							{# nom et photo de l'auteur, exigés par le cahier des charges #}
-							<p class="text-muted small">Mise en ligne
+							<p class="text-muted small">{{ 'homeTemplate.uploaded'|trans }}
 								{{ video.createdAt|ago }}</p>
 							{# temps écoulé depuis la publication, via KnpTimeBundle #}
 						</div>
 					</div>
 				</div>
 			{% else %}
-				<p>Aucune vidéo trouvée.</p>
+				<p>{{ 'homeTemplate.noResults'|trans }}</p>
 				{# affiché si la boucle for n'a rien à itérer #}
 			{% endfor %}
 		</div>

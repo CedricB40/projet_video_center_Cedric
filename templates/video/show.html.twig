@@ -21,26 +21,26 @@
 
 				<p class="text-muted mb-1">
 					<img src="{{ vich_uploader_asset(video.auteur, 'imageFile')|imagine_filter('user_thumbnail') }}" alt="{{ video.auteur.firstname }}" width="24" height="24" class="rounded-circle">
-					Par {{ video.auteur.firstname }} {{ video.auteur.lastname }}</p>
+					{{ 'showTemplate.author'|trans }} {{ video.auteur.firstname }} {{ video.auteur.lastname }}</p>
 				{# nom et photo de l'auteur, exigés par le cahier des charges #}
 
-				<p class="text-muted">Publiée le
+				<p class="text-muted">{{ 'showTemplate.publishedOn'|trans }}
 					{{ video.createdAt|date('d/m/Y à H:i') }}</p>
 				{# formatage de la date via le filtre |date #}
 
-				<a href="{{ path('app_home') }}" class="btn btn-secondary">Retour</a>
+				<a href="{{ path('app_home') }}" class="btn btn-secondary">{{ 'showTemplate.back'|trans }}</a>
 				{# lien vers l'accueil via le nom de route, jamais l'URL en dur #}
 				{% if app.user == video.auteur %}
-					<a href="{{ path('app_video_edit', {id: video.id}) }}" class="btn btn-warning">Éditer</a>
+					<a href="{{ path('app_video_edit', {id: video.id}) }}" class="btn btn-warning">{{ 'showTemplate.edit'|trans }}</a>
 					{# lien vers l'édition de cette vidéo précise #}
 
 					<form
-						method="post" action="{{ path('app_video_delete', {id: video.id}) }}" class="d-inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette vidéo ?');">
+						method="post" action="{{ path('app_video_delete', {id: video.id}) }}" class="d-inline" onsubmit="return confirm('{{ 'showTemplate.confirmDelete'|trans|e('js') }}');">
 						{# formulaire POST requis pour la suppression, confirmation JS avant l'envoi #}
 						<input
 						type="hidden" name="_token" value="{{ csrf_token('delete' ~ video.id) }}">
 						{# token CSRF, doit correspondre à la clé utilisée dans le contrôleur #}
-						<button type="submit" class="btn btn-danger">Supprimer</button>
+						<button type="submit" class="btn btn-danger">{{ 'showTemplate.delete'|trans }}</button>
 					</form>
 				{% endif %}
 

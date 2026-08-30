@@ -2,7 +2,7 @@
 {% extends 'base.html.twig' %}
 
 {# remplis le bloc titre #}
-{% block title %}Créer une vidéo
+{% block title %}{{ 'videoCreateTemplate.title'|trans }}
 {% endblock %}
 
 {% block body %}
@@ -12,9 +12,10 @@
 				class="col-md-6">
 				{# colonne centrée, largeur limitée pour desktop #}
 
-				<h1>Créer une vidéo</h1>
+				<h1>{{ 'videoCreateTemplate.title'|trans }}</h1>
 
 				{{ form_start(form, {'attr': {'novalidate': 'novalidate', 'data-turbo': 'false'}}) }}
+				{# ouvre la balise form + désactive la validation native du navigateur et Turbo, pour laisser nos messages Symfony s'afficher #}
 				{{ form_errors(form.title) }}
 				{# erreurs spécifiques au champ titre #}
 				{{ form_errors(form.videoLink) }}
@@ -24,7 +25,7 @@
 				{{ form_widget(form) }}
 				{# affiche automatiquement tous les champs du formulaire #}
 
-				<button type="submit" class="btn btn-primary mt-3">Créer</button>
+				<button type="submit" class="btn btn-primary mt-3">{{ 'videoCreateTemplate.button'|trans }}</button>
 				{# bouton de soumission Bootstrap #}
 
 				{{ form_end(form) }}
