@@ -15,9 +15,16 @@ class VideoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title')
-            ->add('videoLink')
-            ->add('description')
+            ->add('title', null, [
+                'label' => 'Titre',
+            ])
+            ->add('videoLink', null, [
+                'label' => 'Lien vidéo',
+                'help' => 'Collez le lien au format "embed" (ex : https://www.youtube.com/embed/XXXXXXXXXXX), pas le lien classique "watch?v=".',
+            ])
+            ->add('description', null, [
+                'label' => 'Description',
+            ])
             ->add('premiumVideo', CheckboxType::class, [
                 'required' => false,
             ])
