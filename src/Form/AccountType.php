@@ -14,10 +14,15 @@ class AccountType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstname')
-            ->add('lastname')
+            ->add('firstname', null, [
+                'label' => 'Prénom',
+            ])
+            ->add('lastname', null, [
+                'label' => 'Nom',
+            ])
 
             ->add('imageFile', VichImageType::class, [
+                'label' => 'Photo de profil',
                 'required' => false, //l'utilisateur peut modifier son profil sans changer sa photo à chaque fois
                 'allow_delete' => false, //pas d'option de suppression de photo sans la remplacer (une photo par défaut existe toujours)
             ])
