@@ -1,0 +1,6 @@
+navBar.home: Accueil
+navBar.createVideo: 'Créer une vidéo'
+navBar.account: 'Mon profil'
+navBar.logout: 'Se déconnecter'
+navBar.register: "S'enregistrer"
+navBar.login: 'Se connecter'
