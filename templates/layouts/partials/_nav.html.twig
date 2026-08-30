@@ -32,6 +32,19 @@
 						<a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
 					</li>
 				{% endif %}
+				<li class="nav-item d-flex align-items-center ms-2">
+					{% if app.request.locale == 'fr' %}
+						<span class="nav-link text-white fw-bold">FR</span>
+					{% else %}
+						<a class="nav-link" href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale': 'fr'})) }}">FR</a>
+					{% endif %}
+					<span class="text-white-50">|</span>
+					{% if app.request.locale == 'en' %}
+						<span class="nav-link text-white fw-bold">EN</span>
+					{% else %}
+						<a class="nav-link" href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale': 'en'})) }}">EN</a>
+					{% endif %}
+				</li>
 			</ul>
 		</div>
 	</div>
