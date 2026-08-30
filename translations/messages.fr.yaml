@@ -92,3 +92,14 @@ checkEmailTemplate.retry: 'réessayez'
 
 changePasswordForm.newPassword: 'Nouveau mot de passe'
 changePasswordForm.repeatPassword: 'Répéter le mot de passe'
+
+flash.videoCreateVerifyRequired: 'Vous devez vérifier votre adresse email avant de pouvoir créer une vidéo.'
+flash.videoCreateSuccess: 'La vidéo a bien été créée.'
+flash.videoEditVerifyRequired: 'Vous devez vérifier votre adresse email avant de pouvoir modifier une vidéo.'
+flash.videoEditSuccess: 'La vidéo a bien été modifiée.'
+flash.registrationSuccess: 'Votre compte a bien été créé. Merci de vérifier votre adresse email.'
+flash.emailVerified: 'Votre adresse email a été vérifiée avec succès.'
+flash.welcome: 'Bienvenue %firstname% !'
+
+email.confirmationSubject: 'Confirmez votre adresse email'
+email.resetPasswordSubject: 'Réinitialisation de votre mot de passe'

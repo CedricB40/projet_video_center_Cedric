@@ -20,6 +20,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 use Knp\Component\Pager\PaginatorInterface;
 
+use Symfony\Contracts\Translation\TranslatorInterface;
+
 class VideoController extends AbstractController
 {
     #[Route(path: '/', name: 'app_home')]
@@ -61,7 +63,7 @@ class VideoController extends AbstractController
 
     #[Route(path: '/video/create', name: 'app_video_create')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')] //couche 1 : bloque si non connecté
-    public function create(Request $request, EntityManagerInterface $entityManager): Response
+    public function create(Request $request, EntityManagerInterface $entityManager, TranslatorInterface $translator): Response
     {
         // couche 2 : bloque si non vérifié
         /**
@@ -70,7 +72,7 @@ class VideoController extends AbstractController
         $user = $this->getUser();
 
         if (!$user->isVerified()) {
-            $this->addFlash('danger', 'Vous devez vérifier votre adresse email avant de pouvoir créer une vidéo.');
+            $this->addFlash('danger', $translator->trans('flash.videoCreateVerifyRequired'));
 
             return $this->redirectToRoute('app_home');
         }
@@ -85,7 +87,7 @@ class VideoController extends AbstractController
             $entityManager->persist($video);
             $entityManager->flush();
 
-            $this->addFlash('success', 'La vidéo a bien été créée.');
+            $this->addFlash('success', $translator->trans('flash.videoCreateSuccess'));
 
             return $this->redirectToRoute('app_home');
         }
@@ -117,7 +119,7 @@ class VideoController extends AbstractController
 
     #[Route(path: '/video/{id}/edit', name: 'app_video_edit')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')] //couche 1 : bloque si non connecté
-    public function edit(Video $video, Request $request, EntityManagerInterface $entityManager): Response
+    public function edit(Video $video, Request $request, EntityManagerInterface $entityManager, TranslatorInterface $translator): Response
     {
         // couche 3 : bloque si pas l'auteur
         if ($video->getAuteur() !== $this->getUser()) {
@@ -131,7 +133,7 @@ class VideoController extends AbstractController
         $user = $this->getUser();
 
         if (!$user->isVerified()) {
-            $this->addFlash('danger', 'Vous devez vérifier votre adresse email avant de pouvoir modifier une vidéo.');
+            $this->addFlash('danger', $translator->trans('flash.videoEditVerifyRequired'));
 
             return $this->redirectToRoute('app_home');
         }
@@ -143,7 +145,7 @@ class VideoController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush(); //pas de persist, $video déjà connue de Doctrine
 
-            $this->addFlash('success', 'La vidéo a bien été modifiée.');
+            $this->addFlash('success', $translator->trans('flash.videoEditSuccess'));
 
             return $this->redirectToRoute('app_video_show', ['id' => $video->getId()]);
         }

@@ -21,7 +21,7 @@ class RegistrationController extends AbstractController
     public function __construct(private EmailVerifier $emailVerifier) {}
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, TranslatorInterface $translator): Response
     {
         $verif = $this->getUser(); //si l'utilisateur est déjà enregistré redirection vers son profil
         if ($verif !== null) {
@@ -52,11 +52,11 @@ class RegistrationController extends AbstractController
                 (new TemplatedEmail())
                     ->from(new Address('no-reply@videocenter.com', 'Video Center'))
                     ->to((string) $user->getEmail())
-                    ->subject('Confirmez votre adresse email')
+                    ->subject($translator->trans('email.confirmationSubject'))
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
 
-            $this->addFlash('success', 'Votre compte a bien été créé. Merci de vérifier votre adresse email.');
+            $this->addFlash('success', $translator->trans('flash.registrationSuccess'));
 
             return $this->redirectToRoute('app_login');
         }
@@ -82,7 +82,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_register');
         }
 
-        $this->addFlash('info', 'Votre adresse email a été vérifiée avec succès.');
+        $this->addFlash('info', $translator->trans('flash.emailVerified'));
 
         return $this->redirectToRoute('app_register');
     }
