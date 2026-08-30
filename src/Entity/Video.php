@@ -7,6 +7,8 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 use App\Entity\Trait\TimestampableTrait; //ajout de l'appel du trait
+use App\Validator\InappropriateWords;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: VideoRepository::class)]
 #[ORM\HasLifecycleCallbacks] //permet à Doctrine d'appeler automatiquement les méthodes du trait (PrePersist/PreUpdate) pour gérer createdAt/updatedAt
@@ -21,12 +23,19 @@ class Video
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message: 'Le titre ne peut pas être vide.')]
+    #[Assert\Length(min: 3, minMessage: 'Le titre doit contenir au moins {{ limit }} caractères.')]
+    #[InappropriateWords(listWords: ['shit'])]
     private ?string $title = null;
 
     #[ORM\Column(length: 500)]
+    #[Assert\NotBlank(message: 'Le lien vidéo ne peut pas être vide.')]
     private ?string $videoLink = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: 'La description ne peut pas être vide.')]
+    #[Assert\Length(min: 20, minMessage: 'La description doit contenir au moins {{ limit }} caractères.')]
+    #[InappropriateWords(listWords: ['callypige'])]
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'videos')]
