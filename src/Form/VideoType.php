@@ -16,17 +16,18 @@ class VideoType extends AbstractType
     {
         $builder
             ->add('title', null, [
-                'label' => 'Titre',
+                'label' => 'videoForm.title',
             ])
             ->add('videoLink', null, [
-                'label' => 'Lien vidéo',
-                'help' => 'Collez le lien au format "embed" (ex : https://www.youtube.com/embed/XXXXXXXXXXX), pas le lien classique "watch?v=".',
+                'label' => 'videoForm.videoLink',
+                'help' => 'videoForm.videoLinkHelp',
             ])
             ->add('description', null, [
-                'label' => 'Description',
+                'label' => 'videoForm.description',
             ])
             ->add('premiumVideo', CheckboxType::class, [
                 'required' => false,
+                'label' => 'videoForm.premiumVideo',
             ])
 
             // suppression des createdAt et updatedAt car gérés automatiquement par le trait TimestampableTrait

@@ -4,3 +4,19 @@ navBar.account: 'Mon profil'
 navBar.logout: 'Se déconnecter'
 navBar.register: "S'enregistrer"
 navBar.login: 'Se connecter'
+
+videoForm.title: Titre
+videoForm.videoLink: 'Lien vidéo'
+videoForm.videoLinkHelp: 'Collez le lien au format "embed" (ex : https://www.youtube.com/embed/XXXXXXXXXXX), pas le lien classique "watch?v=".'
+videoForm.description: Description
+videoForm.premiumVideo: 'Vidéo premium'
+
+registerForm.email: Email
+registerForm.firstname: Prénom
+registerForm.lastname: Nom
+registerForm.agreeTerms: "J'accepte les conditions d'utilisation"
+registerForm.plainPassword: 'Mot de passe'
+
+accountForm.firstname: Prénom
+accountForm.lastname: Nom
+accountForm.imageFile: 'Photo de profil'

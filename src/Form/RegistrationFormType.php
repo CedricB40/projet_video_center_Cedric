@@ -18,23 +18,23 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', null, [
-                'label' => 'Email',
+                        ->add('email', null, [
+                'label' => 'registerForm.email',
             ])
 
             // Champ firstname : mappé directement sur User::$firstname (colonne NOT NULL en base)
             // Validation (NotBlank + Length min 2) désormais portée par l'entité User
             ->add('firstname', TextType::class, [
-                'label' => 'Prénom',
+                'label' => 'registerForm.firstname',
             ])
 
             // Champ lastname : mappé directement sur User::$lastname (colonne NOT NULL en base)
             ->add('lastname', TextType::class, [
-                'label' => 'Nom',
+                'label' => 'registerForm.lastname',
             ])
 
             ->add('agreeTerms', CheckboxType::class, [
-                'label' => 'J\'accepte les conditions d\'utilisation',
+                'label' => 'registerForm.agreeTerms',
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue(
@@ -45,7 +45,7 @@ class RegistrationFormType extends AbstractType
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
-                'label' => 'Mot de passe',
+                'label' => 'registerForm.plainPassword',
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [

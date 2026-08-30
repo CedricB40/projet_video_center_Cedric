@@ -4,3 +4,19 @@ navBar.account: 'My profile'
 navBar.logout: Logout
 navBar.register: Register
 navBar.login: Login
+
+videoForm.title: Title
+videoForm.videoLink: 'Video link'
+videoForm.videoLinkHelp: 'Paste the link in "embed" format (e.g. https://www.youtube.com/embed/XXXXXXXXXXX), not the classic "watch?v=" link.'
+videoForm.description: Description
+videoForm.premiumVideo: 'Premium video'
+
+registerForm.email: Email
+registerForm.firstname: First name
+registerForm.lastname: Last name
+registerForm.agreeTerms: 'I agree to the terms of service'
+registerForm.plainPassword: Password
+
+accountForm.firstname: First name
+accountForm.lastname: Last name
+accountForm.imageFile: 'Profile picture'
