@@ -89,3 +89,6 @@ checkEmailTemplate.title: 'Password reset email sent'
 checkEmailTemplate.body: 'If an account matching your email exists, an email has just been sent to you with a link to reset your password. This link will expire in'
 checkEmailTemplate.noEmail: "If you don't receive an email, check your spam folder or"
 checkEmailTemplate.retry: 'try again'
+
+changePasswordForm.newPassword: 'New password'
+changePasswordForm.repeatPassword: 'Repeat password'

@@ -42,14 +42,12 @@ class ChangePasswordFormType extends AbstractType
                             message: 'Ce mot de passe a été exposé lors d\'une fuite de données, il ne peut pas être utilisé. Veuillez en choisir un autre.',
                         ),
                     ],
-                    'label' => 'Nouveau mot de passe',
+                    'label' => 'changePasswordForm.newPassword',
                 ],
                 'second_options' => [
-                    'label' => 'Répéter le mot de passe',
+                    'label' => 'changePasswordForm.repeatPassword',
                 ],
                 'invalid_message' => 'Les deux mots de passe doivent être identiques.',
-                // Instead of being set onto the object directly,
-                // this is read and encoded in the controller
                 'mapped' => false,
             ]);
     }
