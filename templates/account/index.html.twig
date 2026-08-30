@@ -1,31 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon profil
+{% block title %}{{ 'accountTemplate.title'|trans }}
 {% endblock %}
 
 {% block body %}
 	<div class="container">
-		<h1>Mon profil</h1>
+		<h1>{{ 'accountTemplate.title'|trans }}</h1>
 
 		{# imagine_filter applique le filtre user_thumbnail défini dans liip_imagine.yaml (150x150px, recadré) #}
 		<img src="{{ vich_uploader_asset(user, 'imageFile')|imagine_filter('user_thumbnail') }}">
 		<p>
-			<strong>Email :</strong>
+			<strong>{{ 'accountTemplate.email'|trans }}</strong>
 			{{ user.email }}</p>
 		<p>
-			<strong>Prénom :</strong>
+			<strong>{{ 'accountTemplate.firstname'|trans }}</strong>
 			{{ user.firstname }}</p>
 		<p>
-			<strong>Nom :</strong>
+			<strong>{{ 'accountTemplate.lastname'|trans }}</strong>
 			{{ user.lastname }}</p>
 		{# format jour/mois/année plutôt que le format ISO par défaut de DateTimeImmutable #}
 		<p>
-			<strong>Membre depuis :</strong>
+			<strong>{{ 'accountTemplate.memberSince'|trans }}</strong>
 			{{ user.createdAt|date('d/m/Y') }}</p>
 
-		<a href="{{ path('app_account_edit') }}" class="btn btn-primary mb-4">Modifier mon profil</a>
+		<a href="{{ path('app_account_edit') }}" class="btn btn-primary mb-4">{{ 'accountTemplate.editProfile'|trans }}</a>
 
-		<h2>Mes vidéos</h2>
+		<h2>{{ 'accountTemplate.myVideos'|trans }}</h2>
 
 		<div class="row">
 			{% for video in videos %}
@@ -36,7 +36,7 @@
 					<div class="card">
 						<div class="card-body">
 							<h5 class="card-title">
-								<a
+								
 									href="{{ path('app_video_show', {id: video.id}) }}">
 									{# lien cliquable vers show #}
 									{{ video.title|u.truncate(20, '...', true) }}
@@ -47,9 +47,9 @@
 							{# dimensions imposées pour index #}
 							<p class="card-text mt-2">{{ video.description|u.truncate(25, '...', true) }}</p>
 							{# description tronquée à 25 caractères #}
-							<p class="text-muted small">Mise en ligne
+							<p class="text-muted small">{{ 'homeTemplate.uploaded'|trans }}
 								{{ video.createdAt|ago }}</p>
-							{# temps écoulé depuis la publication, via KnpTimeBundle #}
+							{# temps écoulé depuis la publication, via KnpTimeBundle, clé réutilisée depuis index #}
 						</div>
 					</div>
 				</div>

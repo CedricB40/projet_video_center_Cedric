@@ -1,17 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier mon profil{% endblock %}
+{% block title %}{{ 'accountEditTemplate.title'|trans }}{% endblock %}
 
 {% block body %}
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <h1>Modifier mon profil</h1>
+            <h1>{{ 'accountEditTemplate.title'|trans }}</h1>
 
-            {{ form_start(form) }}
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'data-turbo': 'false'}}) }}
+                {{ form_errors(form.firstname) }}
+                {{ form_errors(form.lastname) }}
                 {{ form_widget(form) }}
-                <button type="submit" class="btn btn-primary mt-3">Enregistrer</button>
-                <a href="{{ path('app_account') }}" class="btn btn-secondary mt-3">Retour</a>
+                <button type="submit" class="btn btn-primary mt-3">{{ 'accountEditTemplate.saveButton'|trans }}</button>
+                <a href="{{ path('app_account') }}" class="btn btn-secondary mt-3">{{ 'accountEditTemplate.backButton'|trans }}</a>
             {{ form_end(form) }}
         </div>
     </div>
