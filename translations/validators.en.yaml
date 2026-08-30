@@ -21,3 +21,5 @@
 "Ce mot de passe a été exposé lors d'une fuite de données, il ne peut pas être utilisé. Veuillez en choisir un autre.": "This password has been exposed in a data breach and cannot be used. Please choose another one."
 "Les deux mots de passe doivent être identiques.": "Both passwords must match."
 "Please enter your email": "Please enter your email"
+
+'Ce champ contient un mot non autorisé : "{{ inappropriateWord }}".': 'This field contains a forbidden word: "{{ inappropriateWord }}".'
